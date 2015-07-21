@@ -24,7 +24,7 @@ package com.hancinworld.fw.proxy;
 
 import com.hancinworld.fw.handler.ConfigurationHandler;
 import com.hancinworld.fw.utility.LogHelper;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.LWJGLException;
@@ -45,6 +45,13 @@ public class ClientProxy extends CommonProxy {
      *  If this is set to any valid key, problems may occur. */
     public static KeyBinding ignoreKeyBinding = new KeyBinding("key.fullscreenwindowed.unused", Keyboard.KEY_NONE, "key.categories.misc");
 
+
+    public ClientProxy()
+    {
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.gameSettings.fullScreen = false;
+    }
+
     @Override
     public void registerKeyBindings()
     {
@@ -53,8 +60,8 @@ public class ClientProxy extends CommonProxy {
         if(ConfigurationHandler.overrideF11Behavior)
         {
             Minecraft mc = Minecraft.getMinecraft();
-            fullscreenKeyBinding = mc.gameSettings.field_152395_am;
-            mc.gameSettings.field_152395_am = ignoreKeyBinding;
+            fullscreenKeyBinding = mc.gameSettings.keyBindFullscreen;
+            mc.gameSettings.keyBindFullscreen = ignoreKeyBinding;
         }
     }
 
@@ -86,21 +93,7 @@ public class ClientProxy extends CommonProxy {
     /** Calls the Minecraft resize() method so it updates its framebuffer. */
     private void callMinecraftResizeMethod(int w, int h)
     {
-        try{
-            Class[] args = new Class[2];
-            args[0] = int.class;
-            args[1] = int.class;
-            Minecraft inst = Minecraft.getMinecraft();
-            Method resizeMethod = ReflectionHelper.findMethod(Minecraft.class, inst, new String[]{"func_71370_a", "resize"}, args);
-            if(resizeMethod != null)
-            {
-                Display.update();
-                resizeMethod.invoke(inst, w, h);
-            }
-
-        }catch (Exception e){
-            LogHelper.warn("Resize method not found or problem found while calling it. Are you using the correct version of the mod for this version of Minecraft?" + e.toString());
-        }
+        Minecraft.getMinecraft().resize(w, h);
     }
 
     private boolean isDesktopDisplayMode(Rectangle bounds)

@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.10-1.1.1"
+version = "1.8-1.1.1"
 group= "com.hancinworld.fw" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "FullscreenWindowed"
 
 minecraft {
-    version = "10.13.4.1448-1.7.10"
+    version = "11.14.3.1450"
     runDir = "eclipse"
 }
 
