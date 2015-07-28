@@ -40,6 +40,7 @@ public class ClientProxy extends CommonProxy {
     private Rectangle _savedWindowedBounds;
     public static boolean currentState;
     public static KeyBinding fullscreenKeyBinding;
+    private boolean _startupRequestedSetting;
 
     /** This keybind replaces the default MC fullscreen keybind in their logic handler. Without it, the game crashes.
      *  If this is set to any valid key, problems may occur. */
@@ -49,6 +50,7 @@ public class ClientProxy extends CommonProxy {
     public ClientProxy()
     {
         Minecraft mc = Minecraft.getMinecraft();
+        _startupRequestedSetting = mc.gameSettings.fullScreen;
         mc.gameSettings.fullScreen = false;
     }
 
@@ -182,7 +184,7 @@ public class ClientProxy extends CommonProxy {
     {
         //FIXME: Living dangerously here... Is there a better way of doing this?
         SplashProgress.pause();
-        toggleFullScreen(ConfigurationHandler.instance().getFullscreenWindowedStartup(), ConfigurationHandler.instance().getFullscreenMonitor());
+        toggleFullScreen(_startupRequestedSetting || ConfigurationHandler.instance().getFullscreenWindowedStartup(), ConfigurationHandler.instance().getFullscreenMonitor());
         SplashProgress.resume();
     }
 }
