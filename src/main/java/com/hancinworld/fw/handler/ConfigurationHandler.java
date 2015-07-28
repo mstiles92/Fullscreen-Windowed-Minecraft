@@ -22,6 +22,7 @@
 //        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.hancinworld.fw.handler;
 
+import com.hancinworld.fw.FullscreenWindowed;
 import com.hancinworld.fw.reference.Reference;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -76,6 +77,9 @@ public class ConfigurationHandler {
     {
         if(event.modID.equalsIgnoreCase(Reference.MOD_ID)) {
             load();
+            if(!_isInitializing){
+                FullscreenWindowed.proxy.registerKeyBindings();
+            }
         }
     }
 
@@ -127,6 +131,8 @@ public class ConfigurationHandler {
         if (_configuration.hasChanged()) {
             _configuration.save();
         }
+
+
     }
 
 
