@@ -73,7 +73,7 @@ public class ClientProxy extends CommonProxy {
         {
 
             Minecraft mc = Minecraft.getMinecraft();
-            mc.gameSettings.field_152395_am = fullscreenKeyBinding;
+            mc.gameSettings.keyBindFullscreen = fullscreenKeyBinding;
             fullscreenKeyBinding = null;
 
             if(currentState){
