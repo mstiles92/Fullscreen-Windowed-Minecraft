@@ -59,11 +59,26 @@ public class ClientProxy extends CommonProxy {
     {
 
         /* FIXME: Overrides the minecraft hotkey for fullscreen, as there are no hooks */
-        if(ConfigurationHandler.instance().isFullscreenWindowedEnabled())
+        if(fullscreenKeyBinding == null && ConfigurationHandler.instance().isFullscreenWindowedEnabled())
         {
             Minecraft mc = Minecraft.getMinecraft();
             fullscreenKeyBinding = mc.gameSettings.keyBindFullscreen;
             mc.gameSettings.keyBindFullscreen = ignoreKeyBinding;
+
+            if(Display.isFullscreen()){
+                toggleFullScreen(true, Reference.AUTOMATIC_MONITOR_SELECTION);
+            }
+        }
+        else if(fullscreenKeyBinding != null && !ConfigurationHandler.instance().isFullscreenWindowedEnabled())
+        {
+
+            Minecraft mc = Minecraft.getMinecraft();
+            mc.gameSettings.field_152395_am = fullscreenKeyBinding;
+            fullscreenKeyBinding = null;
+
+            if(currentState){
+                mc.toggleFullscreen();
+            }
         }
     }
 
